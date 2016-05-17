@@ -1,0 +1,2 @@
+Se genera un error porque esta comparando con punteros distintos.
+Al ser diferentes, accede a un lugar de memoria no disponible.
