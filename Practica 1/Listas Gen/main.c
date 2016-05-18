@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "SList.h"
 
 void print_int(void * data, void * extra_data)
@@ -13,6 +14,12 @@ void print_char(void *data, void *extra_data)
   printf("%c, ", c );
 }
 
+void remove_int(void *data)
+{
+  int *x = (int *)data;
+  free(x);
+}
+
 int main(void)
 {
   SList lista = slist_create();
@@ -21,6 +28,9 @@ int main(void)
   int d1 = 1;
   int d2 = 2;
   int d3 = 3;
+  int d4 = 4;
+  int d5 = 5;
+  int d6 = 6;
 
   char c1 = 'a';
   char c2 = 'b';
@@ -59,6 +69,26 @@ int main(void)
   slist_foreach(lista_nueva, print_int);
   printf("\n");
   slist_foreach(lista, print_int);
+  printf("\n");
+
+  lista_nueva = slist_insert(lista_nueva, &d4, sizeof(int), 0);
+  lista_nueva = slist_insert(lista_nueva, &d5, sizeof(int), 4);
+  lista_nueva = slist_insert(lista_nueva, &d6, sizeof(int), 14);
+  lista_nueva = slist_insert(lista_nueva, &d6, sizeof(int), 20);
+
+  slist_foreach(lista_nueva, print_int);
+  printf("\n");
+
+  lista_nueva = slist_remove(lista_nueva, 0, remove_int);
+  slist_foreach(lista_nueva, print_int);
+  printf("\n");
+
+  lista_nueva = slist_remove(lista_nueva, 5, remove_int);
+  slist_foreach(lista_nueva, print_int);
+  printf("\n");
+
+  lista_nueva = slist_remove(lista_nueva, 20, remove_int);
+  slist_foreach(lista_nueva, print_int);
   printf("\n");
 
   return 0;

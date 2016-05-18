@@ -91,3 +91,56 @@ SList slist_concat(SList list1, SList list2, size_t size)
 
   return new_list;
 }
+
+SList slist_insert(SList list, void *data, size_t size, unsigned int pos)
+{
+  if( pos == 0)
+    list = slist_preppend(list, data, size);
+  if( pos > 0 && pos <= slist_length(list))
+  {
+    int i;
+    SList aux_list = list;
+    SList new_node = slist_create();
+    new_node = slist_preppend(new_node, data, size);
+
+    for(i = 0; i <= pos; i++)
+    {
+        if( i == pos - 1)
+        {
+          slist_next(new_node) = slist_next(aux_list);
+          slist_next(aux_list) = new_node;
+        }
+        aux_list = slist_next(aux_list);
+    }
+  }
+  return list;
+}
+
+SList slist_remove(SList list, unsigned int pos, RemoveFunc remove)
+{
+  SList list_aux = list;
+
+  if(pos == 0)
+  {
+    list = slist_next(list);
+    //remove(&slist_data(list_aux));
+    //free(list_aux->data);
+    free(list_aux);
+  }
+  else
+  {
+    int i;
+    for( i = 0; i < slist_length(list); i++)
+    {
+      if(i == pos - 1)
+      {
+        SList node_aux = slist_next(list_aux);
+        slist_next(list_aux) = slist_next(slist_next(list_aux));
+        //remove(&slist_data(node_aux));
+        free(node_aux);
+      }
+      list_aux = slist_next(list_aux);
+    }
+  }
+  return list;
+}
