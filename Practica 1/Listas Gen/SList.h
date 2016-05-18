@@ -11,7 +11,7 @@ typedef struct _node
 
 typedef node *SList;
 
-typedef enum _bool {TRUE, FALSE} bool;
+typedef enum _bool {FALSE, TRUE} bool;
 
 #define slist_next(l) (l)->next
 #define slist_data(l) (l)->data
@@ -20,6 +20,11 @@ typedef enum _bool {TRUE, FALSE} bool;
 SList slist_create();
 SList slist_append(SList, void *, size_t);
 SList slist_preppend(SList, void *, size_t);
+
 void slist_foreach(SList, VisitorFunc);
+
+bool slist_has_next(SList);
+unsigned int slist_length(SList);
+SList slist_concat (SList, SList, size_t);
 
 #endif

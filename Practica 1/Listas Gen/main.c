@@ -48,5 +48,18 @@ int main(void)
 
   slist_foreach(lista_char, print_char);
   printf("\n");
+
+  SList lista_vacia = slist_create();
+  bool has_next = slist_has_next(lista_vacia);
+  printf("has_next?: %d\n", has_next );
+
+  printf("longitud lista_char %d\n", slist_length(lista_char) );
+
+  SList lista_nueva = slist_concat(lista, lista, sizeof(int));
+  slist_foreach(lista_nueva, print_int);
+  printf("\n");
+  slist_foreach(lista, print_int);
+  printf("\n");
+
   return 0;
 }
