@@ -144,3 +144,51 @@ SList slist_remove(SList list, unsigned int pos, RemoveFunc remove)
   }
   return list;
 }
+
+bool slist_contain(SList list, void *data, CompareFunc func)
+{
+  SList aux_list = list;
+
+  while(aux_list != slist_empty())
+  {
+    if(func(slist_data(aux_list), data) == TRUE)
+      return TRUE;
+    aux_list = slist_next(aux_list);
+  }
+  return FALSE;
+}
+
+unsigned int slist_index(SList list, void *data, CompareFunc func)
+{
+  SList aux_list = list;
+  unsigned int index = 0;
+
+  while(aux_list != slist_empty())
+  {
+      if(func(slist_data(aux_list), data) == TRUE)
+        return index;
+      ++index;
+      aux_list = slist_next(aux_list);
+  }
+  return index;
+}
+
+SList slist_interect_custom(SList list1, SList list2, CompareFunc func, size_t size)
+{
+  SList aux_list1 = list1;
+  SList aux_list2 = list2;
+  SList new_list = slist_create();
+
+  while (aux_list1 != slist_empty())
+  {
+    while(aux_list2 != slist_empty())
+    {
+      if(func(slist_data(aux_list1), slist_data(aux_list2)) && !slist_contain(new_list, slist_data(aux_list1), func))
+        new_list = slist_append(new_list, slist_data(aux_list1), size);
+      aux_list2 = slist_next(aux_list2);
+    }
+    aux_list2 = list2;
+    aux_list1 = slist_next(aux_list1);
+  }
+  return new_list;
+}

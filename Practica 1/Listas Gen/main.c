@@ -14,6 +14,20 @@ void print_char(void *data, void *extra_data)
   printf("%c, ", c );
 }
 
+int compare_chars(void *data1, void *data2)
+{
+  char c1 = *(char *)data1;
+  char c2 = *(char *)data2;
+  return c1 == c2;
+}
+
+int compare_ints(void *data1, void *data2)
+{
+  int d1 = *(int *)data1;
+  int d2 = *(int *)data2;
+  return d1 == d2;
+}
+
 void remove_int(void *data)
 {
   int *x = (int *)data;
@@ -35,6 +49,7 @@ int main(void)
   char c1 = 'a';
   char c2 = 'b';
   char c3 = 'c';
+  char c4 = 'd';
 
   lista = slist_preppend( lista, &d1, sizeof(int));
   lista = slist_preppend( lista, &d2, sizeof(int));
@@ -89,6 +104,14 @@ int main(void)
 
   lista_nueva = slist_remove(lista_nueva, 20, remove_int);
   slist_foreach(lista_nueva, print_int);
+  printf("\n");
+
+  printf("Lista char contiene a 'd'?: %d\n", slist_contain(lista_char, &c4, compare_chars) );
+  printf("Lista char contiene a 'a'?: %d\n", slist_contain(lista_char, &c1, compare_chars) );
+  printf("Posicion de '5': %d\n", slist_index(lista_nueva, &d5, compare_ints) );
+
+  SList lista_nueva_nueva = slist_interect_custom(lista, lista_nueva, compare_ints, sizeof(int));
+  slist_foreach(lista_nueva_nueva, print_int);
   printf("\n");
 
   return 0;
